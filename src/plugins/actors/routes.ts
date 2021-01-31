@@ -125,7 +125,9 @@ async function remove(req: Request, h: ResponseToolkit, _err?: Error): Promise<L
 
 async function getActorMovies(req: Request, _h: ResponseToolkit, _err?: Error): Promise<Lifecycle.ReturnValue> {
   const { id } = (req.params as ParamsId)
+
   const found = await actors.getActorMovies(id)
+
   const actorResult = {
     id: found[0].id,
     name: found[0].name,
@@ -146,7 +148,9 @@ async function getActorMovies(req: Request, _h: ResponseToolkit, _err?: Error): 
 
 async function getActorCharacters(req: Request, _h: ResponseToolkit, _err?: Error): Promise<Lifecycle.ReturnValue> {
   const { id } = (req.params as ParamsId)
+
   const found = await actors.getActorCharacters(id)
+
   const actorResult = {
     id: found[0].id,
     name: found[0].name,

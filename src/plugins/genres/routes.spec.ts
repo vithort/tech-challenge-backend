@@ -34,7 +34,7 @@ describe('plugin', () => describe('genre', () => {
       lib_remove: sandbox.stub(lib, 'remove'),
       lib_create: sandbox.stub(lib, 'create'),
       lib_update: sandbox.stub(lib, 'update'),
-      //lib_find_genre_actors: sandbox.stub(lib, 'getGenreActors'),
+      lib_find_actors: sandbox.stub(lib, 'find'),
     }
 
     // all stubs must be made before server starts
@@ -52,7 +52,7 @@ describe('plugin', () => describe('genre', () => {
     context.stub.lib_remove.rejects(new Error('test: provide a mock for the result'))
     context.stub.lib_create.rejects(new Error('test: provide a mock for the result'))
     context.stub.lib_update.rejects(new Error('test: provide a mock for the result'))
-    //context.stub.lib_find_genre_actors.rejects(new Error('test: provide a mock for the result'))
+    context.stub.lib_find_actors.rejects(new Error('test: provide a mock for the result'))
   })
 
   afterEach(() => sandbox.resetHistory())
@@ -251,10 +251,10 @@ describe('plugin', () => describe('genre', () => {
 
   })
 
-  /*
-  describe('GET /getGenreActors/:id', () => {
-    const paramId = 1
-    const [method, url] = ['GET', `/getGenreActors/${paramId}`]
+
+  describe('GET /getActorCharacters/:id', () => {
+    const paramId = 123
+    const [method, url] = ['GET', `/getActorCharacters/${paramId}`]
 
     it('validates :id is numeric', async ({ context }: Flags) => {
       if(!isContext(context)) throw TypeError()
@@ -267,26 +267,25 @@ describe('plugin', () => describe('genre', () => {
     it('returns HTTP 404 when :id is not found', async ({ context }: Flags) => {
       if(!isContext(context)) throw TypeError()
       const opts: Hapi.ServerInjectOptions = { method, url }
-      context.stub.lib_find.resolves(null)
+      context.stub.lib_find_actors.resolves(null)
 
       const response = await context.server.inject(opts)
       expect(response.statusCode).equals(404)
     })
 
-    it('returns genre with all actors in that genre', async ({ context }: Flags) => {
+    it('returns one genre with actors', async ({ context }: Flags) => {
       if(!isContext(context)) throw TypeError()
       const opts: Hapi.ServerInjectOptions = { method, url }
       const anyResult = {'any': 'result'}
-      context.stub.lib_find.resolves(anyResult)
+      context.stub.lib_find_actors.resolves(anyResult)
 
       const response = await context.server.inject(opts)
       expect(response.statusCode).equals(200)
 
-      sinon.assert.calledOnceWithExactly(context.stub.lib_find, paramId)
+      sinon.assert.calledOnceWithExactly(context.stub.lib_find_actors, paramId)
       expect(response.result).equals(anyResult)
     })
 
   })
-  */
 
 }))
