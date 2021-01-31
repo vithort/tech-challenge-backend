@@ -1,5 +1,11 @@
 import Knex, { Config } from 'knex'
 
+import * as dotenv from 'dotenv'
+
+dotenv.config({
+  path: process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev',
+})
+
 if(!process.env.API_SQL_HOST)         throw new Error('Missing ENV variable `API_SQL_HOST`.')
 if(!process.env.API_SQL_PORT)         throw new Error('Missing ENV variable `API_SQL_PORT`.')
 if(!process.env.API_SQL_SCHEMA)       throw new Error('Missing ENV variable `API_SQL_SCHEMA`.')
