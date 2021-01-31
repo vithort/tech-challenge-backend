@@ -23,7 +23,7 @@ Genre payload:
 ```
 
 ### MG-0002 Add `Movie` CRUD
-*Already implemented*
+*Implemented by Vithor Carvalho*
 
 Movie payload:
 
@@ -38,7 +38,7 @@ Movie payload:
 ```
 
 ### MG-0003 Add `Actor` CRUD
-*Already implemented*
+*Implemented by Vithor Carvalho*
 
 Actor payload:
 
@@ -53,10 +53,12 @@ Actor payload:
 
 
 ### MG-0004 View Actor's movie appearances
+*Implemented by Vithor Carvalho*
 
 As a user, I want to get a list of movies that a given Actor starred on.
 
 ### MG-0005. Select one of the following:
+*Implemented by Vithor Carvalho: Item 3*
 
 1. View Actor's favorite genre
 As a user, I want to get the favorite genre of a given Actor.
@@ -69,6 +71,7 @@ As a user, I want to get the number of movies by genre on an actor profile page.
 As a user, I want to get a list of actors for a given Genre ordered by movie appearances.
 
 ### MG-0006. View Actor's character names
+*Implemented by Vithor Carvalho*
 
 As a user, I want to get a list of character names of a given Actor.
 
@@ -112,29 +115,29 @@ You should submit the Fork link.
 
 - Up docker-compose
 
-```
+```npm
 docker-compose up db
 ```
 
 - Install dependencies
 
-```
+```npm
 npm i
 ```
 
 - Execute local
 
-```
+```npm
 npm run local
 ```
 
 - Access src folder
 
-```
+```npm
 cd src
 ```
 
-- alter knexfile.ts to add seeds
+- Alter knexfile.ts to add seeds directory
 
 ```
   seeds: {
@@ -142,98 +145,33 @@ cd src
   }
 ```
 
-- create seed genre
+- Create Migrates
 
-```
-knex seed:make genre -x ts
-```
-
-- execute seed genre
-
-```
-knex seed:run
-```
-
-- create migrate actor
-
-```
+```npm
 knex migrate:make actor -x ts
-```
-
-- create migrate movie
-
-```
-knex migrate:movie movie -x ts
-```
-
-- create seed actor
-
-```
-knex seed:make actor -x ts
-```
-
-- create seed movie
-
-```
-knex seed:make movie -x ts
-```
-
-- execute migrates
-
-```
-knex migrate:up
-```
-
-- execute seeds
-
-```
-knex seed:run
-```
-
-- create movie_actor
-
-```
+knex migrate:make movie -x ts
 knex migrate:make movieactor -x ts
-```
-
-- execute migrate movie_actor
-
-```
-knex migrate:up
-```
-
-- create seed movieactor
-
-```
-knex seed:make movieactor -x ts
-```
-
-- execute seed movieactor
-
-```
-knex seed:run
-```
-
-- create movie_genre
-
-```
 knex migrate:make moviegenre -x ts
 ```
 
-- execute migrate movie_genre
+- Create Seeds
 
-```
-knex migrate:up
-```
-
-- create seed moviegenre
-
-```
+```npm
+knex seed:make genre -x ts
+knex seed:make actor -x ts
+knex seed:make movie -x ts
+knex seed:make movieactor -x ts
 knex seed:make moviegenre -x ts
 ```
 
-- execute seed moviegenre
+- Execute Migrates
 
+```npm
+knex migrate:latest
 ```
-knex seed:run
+
+- Execute Seeds
+
+```npm
+knex seed:run all
 ```
