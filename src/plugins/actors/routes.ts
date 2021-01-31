@@ -13,6 +13,7 @@ import * as actors from '../../lib/actors'
 import { isHasCode } from '../../util/types'
 import { Starred } from '../../lib/actors'
 import { Movie } from '../../lib/movies'
+import { GenreQty, Genre } from '../../lib/genres'
 
 interface ParamsId {
   id: number
@@ -72,6 +73,12 @@ export const actorRoutes: ServerRoute[] = [{
   method: 'GET',
   path: '/getActorCharacters/{id}',
   handler: getActorCharacters,
+  options: { validate: validateParamsId },
+},
+{
+  method: 'GET',
+  path: '/getActorGenre/{id}',
+  handler: getActorGenre,
   options: { validate: validateParamsId },
 }]
 
@@ -160,6 +167,31 @@ async function getActorCharacters(req: Request, _h: ResponseToolkit, _err?: Erro
   }
   found.forEach((a: any) => {
     actorResult.starred.push( { movieName: a.movieName, charName: a.charName } )
+  })
+
+  return actorResult || Boom.notFound()
+}
+
+async function getActorGenre(req: Request, _h: ResponseToolkit, _err?: Error): Promise<Lifecycle.ReturnValue> {
+  const { id } = (req.params as ParamsId)
+
+  const found = await actors.getActorGenre(id)
+
+  const actorResult = {
+    id: found[0].id,
+    name: found[0].name,
+    bio: found[0].bio,
+    bornAt: found[0].bornAt,
+    genres: <GenreQty[]>[],
+  }
+  const listGenre = <Genre[]>[]
+  found.forEach((a: any) => {
+    listGenre.push( { id: a.genreId, name: a.genreName } )
+  })
+  listGenre.forEach(g => {
+    const genre = actorResult.genres.findIndex( element => element.name === g.name )
+    if (genre == -1) actorResult.genres.push( { id: g.id, name: g.name, qty: 1 } )
+    else actorResult.genres[genre].qty++
   })
 
   return actorResult || Boom.notFound()

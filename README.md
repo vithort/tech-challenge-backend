@@ -58,7 +58,7 @@ Actor payload:
 As a user, I want to get a list of movies that a given Actor starred on.
 
 ### MG-0005. Select one of the following:
-*Implemented by Vithor Carvalho: Item 3*
+*Implemented by Vithor Carvalho: Item 2, 3*
 
 1. View Actor's favorite genre
 As a user, I want to get the favorite genre of a given Actor.

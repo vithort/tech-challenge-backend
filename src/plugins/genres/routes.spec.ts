@@ -251,7 +251,6 @@ describe('plugin', () => describe('genre', () => {
 
   })
 
-
   describe('GET /getActorCharacters/:id', () => {
     const paramId = 123
     const [method, url] = ['GET', `/getActorCharacters/${paramId}`]

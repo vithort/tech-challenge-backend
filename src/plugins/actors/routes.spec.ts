@@ -36,6 +36,7 @@ describe('plugin', () => describe('actor', () => {
       lib_update: sandbox.stub(lib, 'update'),
       lib_find_movie: sandbox.stub(lib, 'find'),
       lib_find_character: sandbox.stub(lib, 'find'),
+      lib_find_genre: sandbox.stub(lib, 'find')
     }
 
     // all stubs must be made before server starts
@@ -55,6 +56,7 @@ describe('plugin', () => describe('actor', () => {
     context.stub.lib_update.rejects(new Error('test: provide a mock for the result'))
     context.stub.lib_find_movie.rejects(new Error('test: provide a mock for the result'))
     context.stub.lib_find_character.rejects(new Error('test: provide a mock for the result'))
+    context.stub.lib_find_genre.rejects(new Error('test: provide a mock for the result'))
   })
 
   afterEach(() => sandbox.resetHistory())
@@ -324,5 +326,43 @@ describe('plugin', () => describe('actor', () => {
     })
 
   })
+
+  /*
+  describe('GET /getActorGenre/:id', () => {
+    const paramId = 123
+    const [method, url] = ['GET', `/getActorGenre/${paramId}`]
+
+    it('validates :id is numeric', async ({ context }: Flags) => {
+      if(!isContext(context)) throw TypeError()
+      const opts: Hapi.ServerInjectOptions = { method, url: 'not-a-number' }
+
+      const response = await context.server.inject(opts)
+      expect(response.statusCode).equals(400)
+    })
+
+    it('returns HTTP 404 when :id is not found', async ({ context }: Flags) => {
+      if(!isContext(context)) throw TypeError()
+      const opts: Hapi.ServerInjectOptions = { method, url }
+      context.stub.lib_find_genre.resolves(null)
+
+      const response = await context.server.inject(opts)
+      expect(response.statusCode).equals(404)
+    })
+
+    it('returns one actor with qty genres', async ({ context }: Flags) => {
+      if(!isContext(context)) throw TypeError()
+      const opts: Hapi.ServerInjectOptions = { method, url }
+      const anyResult = {'any': 'result'}
+      context.stub.lib_find_genre.resolves(anyResult)
+
+      const response = await context.server.inject(opts)
+      expect(response.statusCode).equals(200)
+
+      sinon.assert.calledOnceWithExactly(context.stub.lib_find_genre, paramId)
+      expect(response.result).equals(anyResult)
+    })
+
+  })
+  */
 
 }))

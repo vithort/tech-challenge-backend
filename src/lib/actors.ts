@@ -1,5 +1,6 @@
 import { knex } from '../util/knex'
 import { Movie } from './movies'
+import { GenreQty } from './genres'
 
 
 export interface Actor {
@@ -20,6 +21,10 @@ export interface ActorStarred extends Actor {
 
 export interface ActorCharacter extends Actor {
   movies?: Movie[]
+}
+
+export interface ActorGenre extends Actor {
+  genres?: GenreQty[]
 }
 
 
@@ -49,7 +54,6 @@ export async function update(id: number, name: string, bio: string, bornAt: Date
   return count > 0
 }
 
-/** @returns whether the ID was actually found */
 export async function getActorMovies(id: number): Promise<Actor[]> {
   return knex.from('actor').where({ 'actor.id': id})
     .innerJoin('movie_actor', 'movie_actor.idActor', 'actor.id')
@@ -64,7 +68,6 @@ export async function getActorMovies(id: number): Promise<Actor[]> {
     )
 }
 
-/** @returns whether the ID was actually found */
 export async function getActorCharacters(id: number): Promise<ActorStarred[]> {
   return knex.from('actor').where({ 'actor.id': id})
     .innerJoin('movie_actor', 'movie_actor.idActor', 'actor.id')
@@ -74,5 +77,16 @@ export async function getActorCharacters(id: number): Promise<ActorStarred[]> {
       'movie.id as idMovie', 'movie.name as movieName',
       'movie.synopsis', 'movie.releasedAt', 'movie.runtime',
       'movie_actor.charName',
+    )
+}
+
+export async function getActorGenre(id: number): Promise<ActorGenre[]> {
+  return knex.from('actor').where({ 'actor.id': id})
+    .innerJoin('movie_actor', 'movie_actor.idActor', 'actor.id')
+    .innerJoin('movie_genre', 'movie_genre.idMovie', 'movie_actor.idMovie')
+    .innerJoin('genre', 'genre.id', 'movie_genre.idGenre')
+    .select(
+      'actor.id', 'actor.name', 'actor.bio', 'actor.bornAt',
+      'genre.id as genreId', 'genre.name as genreName'
     )
 }

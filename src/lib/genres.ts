@@ -11,6 +11,10 @@ export interface GenreActors extends Genre {
   actors: Actor[]
 }
 
+export interface GenreQty extends Genre {
+  qty: number
+}
+
 
 export function list(): Promise<Genre[]> {
   return knex.from('genre').select()
@@ -43,7 +47,6 @@ export function getGenreActors(id: number): Promise<GenreActors[]> {
     .innerJoin('movie_genre', 'movie_genre.idGenre', 'genre.id')
     .innerJoin('movie_actor', 'movie_actor.idMovie', 'movie_genre.idMovie')
     .innerJoin('actor', 'actor.id', 'movie_actor.idActor')
-    .distinct()
     .select(
       'genre.id', 'genre.name',
       'actor.id as actorId', 'actor.name as actorName',
