@@ -1,4 +1,6 @@
 import { knex } from '../util/knex'
+import { Genre } from './genres'
+
 
 export interface Movie {
   id: number
@@ -6,6 +8,10 @@ export interface Movie {
   synopsis?: string
   releasedAt: Date
   runtime: number // minutes
+}
+
+export interface MovieGenre extends Movie {
+  genre?: Genre[]
 }
 
 export function list(): Promise<Movie[]> {

@@ -28,6 +28,9 @@ export async function seed(knex: Knex): Promise<void> {
     { id: 19, idMovie: 8, idGenre: 3 },
     { id: 20, idMovie: 8, idGenre: 9 },
     { id: 21, idMovie: 9, idGenre: 3 },
-    { id: 22, idMovie: 9, idGenre: 9 }
+    { id: 22, idMovie: 9, idGenre: 9 },
+    { id: 23, idMovie: 7, idGenre: 1 },
+    { id: 24, idMovie: 7, idGenre: 2 },
+    { id: 25, idMovie: 7, idGenre: 10 },
   ])
 }

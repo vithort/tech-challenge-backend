@@ -6,8 +6,9 @@ export async function up(knex: Knex): Promise<void> {
       id          INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
       idMovie     INT(10) UNSIGNED,
       idActor     INT(10) UNSIGNED,
-      CONSTRAINT FK_movie_actor_actor FOREIGN KEY (idActor) REFERENCES movies.actor (id) ON UPDATE RESTRICT ON DELETE SET NULL,
-      CONSTRAINT FK_movie_actor_movie FOREIGN KEY (idMovie) REFERENCES movies.movie (id) ON UPDATE CASCADE ON DELETE SET NULL
+      charName    VARCHAR(50),
+      CONSTRAINT FK_movie_actor_movie FOREIGN KEY (idMovie) REFERENCES movies.movie (id) ON UPDATE CASCADE ON DELETE SET NULL,
+      CONSTRAINT FK_movie_actor_actor FOREIGN KEY (idActor) REFERENCES movies.actor (id) ON UPDATE RESTRICT ON DELETE SET NULL
   );`)
 }
 

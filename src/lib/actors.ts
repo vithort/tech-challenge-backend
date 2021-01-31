@@ -1,4 +1,6 @@
 import { knex } from '../util/knex'
+import { Movie } from './movies'
+
 
 export interface Actor {
   id: number
@@ -6,6 +8,20 @@ export interface Actor {
   bio: string
   bornAt: Date
 }
+
+export interface Starred {
+  movieName: string
+  charName: string
+}
+
+export interface ActorStarred extends Actor {
+  charName?: Starred[]
+}
+
+export interface ActorCharacter extends Actor {
+  movies?: Movie[]
+}
+
 
 export function list(): Promise<Actor[]> {
   return knex.from('actor').select()
@@ -31,4 +47,32 @@ export async function create(name: string, bio: string, bornAt: Date): Promise<n
 export async function update(id: number, name: string, bio: string, bornAt: Date): Promise<boolean>  {
   const count = await knex.from('actor').where({ id }).update({ name, bio, bornAt })
   return count > 0
+}
+
+/** @returns whether the ID was actually found */
+export async function getActorMovies(id: number): Promise<Actor[]> {
+  return knex.from('actor').where({ 'actor.id': id})
+    .innerJoin('movie_actor', 'movie_actor.idActor', 'actor.id')
+    .innerJoin('movie', 'movie.id', 'movie_actor.idMovie')
+    .innerJoin('movie_genre', 'movie_genre.idMovie', 'movie.id')
+    //.innerJoin('genre', 'genre.id','movie_genre.idGenre')
+    .select(
+      'actor.id', 'actor.name', 'actor.bio', 'actor.bornAt',
+      'movie.id as idMovie', 'movie.name as movieName',
+      'movie.synopsis', 'movie.releasedAt', 'movie.runtime'
+      //,'genre.id as idGenre', 'genre.name as genreName',
+    )
+}
+
+/** @returns whether the ID was actually found */
+export async function getActorCharacters(id: number): Promise<ActorStarred[]> {
+  return knex.from('actor').where({ 'actor.id': id})
+    .innerJoin('movie_actor', 'movie_actor.idActor', 'actor.id')
+    .innerJoin('movie', 'movie.id', 'movie_actor.idMovie')
+    .select(
+      'actor.id', 'actor.name', 'actor.bio', 'actor.bornAt',
+      'movie.id as idMovie', 'movie.name as movieName',
+      'movie.synopsis', 'movie.releasedAt', 'movie.runtime',
+      'movie_actor.charName',
+    )
 }

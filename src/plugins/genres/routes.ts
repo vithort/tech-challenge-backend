@@ -11,6 +11,7 @@ import Boom from '@hapi/boom'
 
 import * as genres from '../../lib/genres'
 import { isHasCode } from '../../util/types'
+import { ActorStarred } from '../../lib/actors'
 
 
 interface ParamsId {
@@ -56,7 +57,13 @@ export const genreRoutes: ServerRoute[] = [{
   path: '/genres/{id}',
   handler: remove,
   options: { validate: validateParamsId },
-},]
+},
+{
+  method: 'GET',
+  path: '/getGenreActors/{id}',
+  handler: getGenreActors,
+  options: { validate: validateParamsId },
+}]
 
 
 async function getAll(_req: Request, _h: ResponseToolkit, _err?: Error): Promise<Lifecycle.ReturnValue> {
@@ -104,4 +111,21 @@ async function remove(req: Request, h: ResponseToolkit, _err?: Error): Promise<L
   const { id } = (req.params as ParamsId)
 
   return await genres.remove(id) ? h.response().code(204) : Boom.notFound()
+}
+
+async function getGenreActors(req: Request, _h: ResponseToolkit, _err?: Error): Promise<Lifecycle.ReturnValue> {
+  const { id } = (req.params as ParamsId)
+
+  const found = await genres.getGenreActors(id)
+
+  const genreResult = {
+    id: found[0].id,
+    name: found[0].name,
+    actors: <ActorStarred[]>[]
+  }
+  found.forEach((a: any) => {
+    genreResult.actors.push( { id: a.actorId, name: a.actorName, bio: a.actorBio, bornAt: a.actorBornAt } )
+  })
+
+  return genreResult || Boom.notFound()
 }

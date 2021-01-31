@@ -28,6 +28,7 @@ interface PayloadMovie {
   releasedAt: Date
   runtime: number
 }
+
 const validatePayloadMovie: RouteOptionsResponseSchema = {
   payload: joi.object({
     name: joi.string().required(),
