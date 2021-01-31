@@ -111,7 +111,7 @@ You should submit the Fork link.
 
 --------------
 
-# TO DO LIST
+# STEP-BY-STEP
 
 - Up docker-compose
 
