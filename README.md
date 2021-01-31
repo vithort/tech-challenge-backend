@@ -23,6 +23,8 @@ Genre payload:
 ```
 
 ### MG-0002 Add `Movie` CRUD
+*Already implemented*
+
 Movie payload:
 
 ```ts
@@ -36,6 +38,8 @@ Movie payload:
 ```
 
 ### MG-0003 Add `Actor` CRUD
+*Already implemented*
+
 Actor payload:
 
 ```ts
@@ -100,3 +104,136 @@ The solution should successfully build using `$ docker-compose build` and should
 ## Submitting
 
 You should submit the Fork link.
+
+
+--------------
+
+# TO DO LIST
+
+- Up docker-compose
+
+```
+docker-compose up db
+```
+
+- Install dependencies
+
+```
+npm i
+```
+
+- Execute local
+
+```
+npm run local
+```
+
+- Access src folder
+
+```
+cd src
+```
+
+- alter knexfile.ts to add seeds
+
+```
+  seeds: {
+    directory: './db/seeds'
+  }
+```
+
+- create seed genre
+
+```
+knex seed:make genre -x ts
+```
+
+- execute seed genre
+
+```
+knex seed:run
+```
+
+- create migrate actor
+
+```
+knex migrate:make actor -x ts
+```
+
+- create migrate movie
+
+```
+knex migrate:movie movie -x ts
+```
+
+- create seed actor
+
+```
+knex seed:make actor -x ts
+```
+
+- create seed movie
+
+```
+knex seed:make movie -x ts
+```
+
+- execute migrates
+
+```
+knex migrate:up
+```
+
+- execute seeds
+
+```
+knex seed:run
+```
+
+- create movie_actor
+
+```
+knex migrate:make movieactor -x ts
+```
+
+- execute migrate movie_actor
+
+```
+knex migrate:up
+```
+
+- create seed movieactor
+
+```
+knex seed:make movieactor -x ts
+```
+
+- execute seed movieactor
+
+```
+knex seed:run
+```
+
+- create movie_genre
+
+```
+knex migrate:make moviegenre -x ts
+```
+
+- execute migrate movie_genre
+
+```
+knex migrate:up
+```
+
+- create seed moviegenre
+
+```
+knex seed:make moviegenre -x ts
+```
+
+- execute seed moviegenre
+
+```
+knex seed:run
+```
